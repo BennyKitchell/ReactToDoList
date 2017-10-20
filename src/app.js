@@ -1,13 +1,7 @@
-"use strict";
-
 console.log("app js is running");
 
 //Begin JSX (Javascript XML)
-var template = React.createElement(
-  "h1",
-  null,
-  "React To-Do List"
-);
+var template = <h1>React To-Do List</h1>;
 var appRoot = document.getElementById('app');
 
 //Renders the application using two parameters (JSX youd like to render, DOM element)
