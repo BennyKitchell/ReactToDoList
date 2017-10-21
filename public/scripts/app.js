@@ -1,46 +1,41 @@
-'use strict';
+"use strict";
 
-console.log("app js is running");
-
-//Because userName is a javascript expression, it can call methods and concat strings dynamically
-var app = {
-    title: 'React To-Do List',
-    subtitle: 'This is a paragraph test',
-    options: ['first', 'second']
+//arguments object and this keywords are no longer bound with arrow functions
+var add = function add(a, b) {
+    return a + b;
 };
 
-//This template is the beginning of having a template that references variables
-//instead of referencing static text 
-var template = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        app.title
-    ),
-    app.subtitle && React.createElement(
-        'h2',
-        null,
-        app.subtitle
-    ),
-    app.options.length ? 'Current Options: ' : 'No Options',
-    React.createElement(
-        'ol',
-        null,
-        React.createElement(
-            'li',
-            null,
-            app.options[0]
-        ),
-        React.createElement(
-            'li',
-            null,
-            app.options[1]
-        )
-    )
-);
-var appRoot = document.getElementById('app');
-//Renders the application using two parameters (JSX youd like to render, DOM element)
-//DOM element can be found in the index html with the same id
-ReactDOM.render(template, appRoot);
+console.log(add(55, 1));
+
+var user = {
+    name: "joe",
+    cities: ["seattle", "concord", "dublin"],
+    //cannot be an arrow function because this.cities is undefined
+    //it is undefined because "this" will refer to the user objects parent for definition
+    printPlacesLived: function printPlacesLived() {
+        var _this = this;
+
+        //console.log(this.name);
+        //console.log(this.cities);
+        //needs to be an arrow function because "this" in arrow functions refers to parent definition (aka user)
+        //using map instead of foreach
+        return this.cities.map(function (city) {
+            return _this.name + ' has lived in ' + city;
+        });
+    }
+};
+console.log(user.printPlacesLived());
+
+var multiplier = {
+    numbers: [1, 5, 43],
+    multiplyBy: 4,
+    multiply: function multiply() {
+        var _this2 = this;
+
+        return this.numbers.map(function (number) {
+            return number * _this2.multiplyBy;
+        });
+    }
+};
+
+console.log(multiplier.multiply());
