@@ -1,7 +1,7 @@
 console.log("app js is running");
 
 //Because userName is a javascript expression, it can call methods and concat strings dynamically
-var app = {
+let app = {
     title: 'React To-Do List',
     subtitle: 'This is a paragraph test',
     options: ['first', 'second']
@@ -9,7 +9,7 @@ var app = {
 
 //This template is the beginning of having a template that references variables
 //instead of referencing static text 
-var template = (
+let template = (
     <div>
         <h1>{app.title}</h1>
         {app.subtitle && <h2>{app.subtitle}</h2>}
@@ -20,7 +20,7 @@ var template = (
         </ol>
     </div>
 );
-var appRoot = document.getElementById('app');
+const appRoot = document.getElementById('app');
 //Renders the application using two parameters (JSX youd like to render, DOM element)
 //DOM element can be found in the index html with the same id
 ReactDOM.render(template, appRoot);
