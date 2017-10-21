@@ -6,8 +6,9 @@ console.log("app js is running");
 var app = {
     title: 'React To-Do List',
     subtitle: 'This is a paragraph test',
-    number: '2017'
+    options: ['first', 'second']
 };
+
 //This template is the beginning of having a template that references variables
 //instead of referencing static text 
 var template = React.createElement(
@@ -18,15 +19,25 @@ var template = React.createElement(
         null,
         app.title
     ),
-    React.createElement(
+    app.subtitle && React.createElement(
         'h2',
         null,
         app.subtitle
     ),
+    app.options.length ? 'Current Options: ' : 'No Options',
     React.createElement(
-        'p',
+        'ol',
         null,
-        app.number
+        React.createElement(
+            'li',
+            null,
+            app.options[0]
+        ),
+        React.createElement(
+            'li',
+            null,
+            app.options[1]
+        )
     )
 );
 var appRoot = document.getElementById('app');
