@@ -1,15 +1,41 @@
 "use strict";
 
-console.log("app js is running");
+//arguments object and this keywords are no longer bound with arrow functions
+var add = function add(a, b) {
+    return a + b;
+};
 
-//Begin JSX (Javascript XML)
-var template = React.createElement(
-  "h1",
-  null,
-  "React To-Do List"
-);
-var appRoot = document.getElementById('app');
+console.log(add(55, 1));
 
-//Renders the application using two parameters (JSX youd like to render, DOM element)
-//DOM element can be found in the index html with the same id
-ReactDOM.render(template, appRoot);
+var user = {
+    name: "joe",
+    cities: ["seattle", "concord", "dublin"],
+    //cannot be an arrow function because this.cities is undefined
+    //it is undefined because "this" will refer to the user objects parent for definition
+    printPlacesLived: function printPlacesLived() {
+        var _this = this;
+
+        //console.log(this.name);
+        //console.log(this.cities);
+        //needs to be an arrow function because "this" in arrow functions refers to parent definition (aka user)
+        //using map instead of foreach
+        return this.cities.map(function (city) {
+            return _this.name + ' has lived in ' + city;
+        });
+    }
+};
+console.log(user.printPlacesLived());
+
+var multiplier = {
+    numbers: [1, 5, 43],
+    multiplyBy: 4,
+    multiply: function multiply() {
+        var _this2 = this;
+
+        return this.numbers.map(function (number) {
+            return number * _this2.multiplyBy;
+        });
+    }
+};
+
+console.log(multiplier.multiply());
