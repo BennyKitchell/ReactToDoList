@@ -24,28 +24,18 @@ const onFormSubmit = (e) => {
     }
 };
 
-//This template is the beginning of having a template that references variables
-//instead of referencing static text 
-// const template = (
-//     <div>
-//         <h1>{app.title}</h1>
-//         {app.subtitle && <h2>{app.subtitle}</h2>}
-//         {app.options.length ? 'Current Options: ' : 'No Options'}
-//         <p>{app.options.length}</p>
-//         <ol>
-//             <li>{app.options[0]}</li>
-//             <li>{app.options[1]}</li>
-//         </ol>
-//         <form onSubmit={onFormSubmit}>
-//             <input type="text" name="option"/>
-//             <button>Add Option</button>
-//         </form>
-//     </div>
-// );
- const removeAll = () =>{
+const onMakeDecision = () => {
+    //Generate random number based on the number of elements in array
+    const randomNumber = Math.floor(Math.random() * app.options.length);
+    const optionSelected = app.options[randomNumber];
+    alert(optionSelected);
+}
+
+const onRemoveAll = () =>{
     app.options=[];
     renderLength();
  } 
+
 
 const appRoot = document.getElementById('app');
 //Renders the application using two parameters (JSX youd like to render, DOM element)
@@ -57,14 +47,14 @@ const renderLength = () => {
         <div>
             <h1>{app.title}</h1>
             {app.subtitle && <h2>{app.subtitle}</h2>}
-            {app.options.length ? 'Current Options: ' : 'No Options'}
-            <p>{app.options.length}</p>
-            <button onClick={removeAll}>Remove All</button>
+            {app.options.length > 0 ? 'Current Options: ' : 'No Options'}
+            <button disabled={app.options.length === 0} onClick={onMakeDecision}>What Should I Do?</button>
+            <button onClick={onRemoveAll}>Remove All</button>
             <ol>
                 {
                     //maps each element of an array to a list item
                     //key is mapped to the string itself, find a better way to generate unique keys
-                    app.options.map((option) => <li key={option}>{option}</li>)
+                    app.options.map((option) => <li key={Math.random()}>{option}</li>)
                 }
                 
             </ol>
