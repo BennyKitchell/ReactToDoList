@@ -20,7 +20,7 @@ const onFormSubmit = (e) => {
         app.options.push(option);
         //wipe the input
         e.target.elements.option.value = '';
-        renderLength();
+        render();
     }
 };
 
@@ -33,7 +33,7 @@ const onMakeDecision = () => {
 
 const onRemoveAll = () =>{
     app.options=[];
-    renderLength();
+    render();
  } 
 
 
@@ -42,7 +42,7 @@ const appRoot = document.getElementById('app');
 //DOM element can be found in the index html with the same id
 //ReactDOM.render(template, appRoot)
 
-const renderLength = () => {
+const render = () => {
     const template = (
         <div>
             <h1>{app.title}</h1>
@@ -67,4 +67,4 @@ const renderLength = () => {
     ReactDOM.render(template, appRoot)
 }
 
-renderLength();
+render();
