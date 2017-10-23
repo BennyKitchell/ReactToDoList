@@ -26,25 +26,14 @@ var onFormSubmit = function onFormSubmit(e) {
     }
 };
 
-//This template is the beginning of having a template that references variables
-//instead of referencing static text 
-// const template = (
-//     <div>
-//         <h1>{app.title}</h1>
-//         {app.subtitle && <h2>{app.subtitle}</h2>}
-//         {app.options.length ? 'Current Options: ' : 'No Options'}
-//         <p>{app.options.length}</p>
-//         <ol>
-//             <li>{app.options[0]}</li>
-//             <li>{app.options[1]}</li>
-//         </ol>
-//         <form onSubmit={onFormSubmit}>
-//             <input type="text" name="option"/>
-//             <button>Add Option</button>
-//         </form>
-//     </div>
-// );
-var removeAll = function removeAll() {
+var onMakeDecision = function onMakeDecision() {
+    //Generate random number based on the number of elements in array
+    var randomNumber = Math.floor(Math.random() * app.options.length);
+    var optionSelected = app.options[randomNumber];
+    alert(optionSelected);
+};
+
+var onRemoveAll = function onRemoveAll() {
     app.options = [];
     renderLength();
 };
@@ -68,15 +57,15 @@ var renderLength = function renderLength() {
             null,
             app.subtitle
         ),
-        app.options.length ? 'Current Options: ' : 'No Options',
+        app.options.length > 0 ? 'Current Options: ' : 'No Options',
         React.createElement(
-            'p',
-            null,
-            app.options.length
+            'button',
+            { disabled: app.options.length === 0, onClick: onMakeDecision },
+            'What Should I Do?'
         ),
         React.createElement(
             'button',
-            { onClick: removeAll },
+            { onClick: onRemoveAll },
             'Remove All'
         ),
         React.createElement(
@@ -88,7 +77,7 @@ var renderLength = function renderLength() {
             app.options.map(function (option) {
                 return React.createElement(
                     'li',
-                    { key: option },
+                    { key: Math.random() },
                     option
                 );
             })
