@@ -1,41 +1,110 @@
-"use strict";
+'use strict';
 
-//arguments object and this keywords are no longer bound with arrow functions
-var add = function add(a, b) {
-    return a + b;
+console.log("app js is running");
+
+//Because userName is a javascript expression, it can call methods and concat strings dynamically
+var app = {
+    title: 'React To-Do List',
+    subtitle: 'This is a paragraph test',
+    options: []
 };
 
-console.log(add(55, 1));
+//event e object
+var onFormSubmit = function onFormSubmit(e) {
+    //stop full page refresh
+    e.preventDefault();
 
-var user = {
-    name: "joe",
-    cities: ["seattle", "concord", "dublin"],
-    //cannot be an arrow function because this.cities is undefined
-    //it is undefined because "this" will refer to the user objects parent for definition
-    printPlacesLived: function printPlacesLived() {
-        var _this = this;
+    //target point to the element that the event started on (the form)
+    //option is the name below in the html
+    var option = e.target.elements.option.value;
 
-        //console.log(this.name);
-        //console.log(this.cities);
-        //needs to be an arrow function because "this" in arrow functions refers to parent definition (aka user)
-        //using map instead of foreach
-        return this.cities.map(function (city) {
-            return _this.name + ' has lived in ' + city;
-        });
-    }
-};
-console.log(user.printPlacesLived());
-
-var multiplier = {
-    numbers: [1, 5, 43],
-    multiplyBy: 4,
-    multiply: function multiply() {
-        var _this2 = this;
-
-        return this.numbers.map(function (number) {
-            return number * _this2.multiplyBy;
-        });
+    if (option) {
+        app.options.push(option);
+        //wipe the input
+        e.target.elements.option.value = '';
+        renderLength();
     }
 };
 
-console.log(multiplier.multiply());
+//This template is the beginning of having a template that references variables
+//instead of referencing static text 
+// const template = (
+//     <div>
+//         <h1>{app.title}</h1>
+//         {app.subtitle && <h2>{app.subtitle}</h2>}
+//         {app.options.length ? 'Current Options: ' : 'No Options'}
+//         <p>{app.options.length}</p>
+//         <ol>
+//             <li>{app.options[0]}</li>
+//             <li>{app.options[1]}</li>
+//         </ol>
+//         <form onSubmit={onFormSubmit}>
+//             <input type="text" name="option"/>
+//             <button>Add Option</button>
+//         </form>
+//     </div>
+// );
+var removeAll = function removeAll() {
+    app.options = [];
+    renderLength();
+};
+
+var appRoot = document.getElementById('app');
+//Renders the application using two parameters (JSX youd like to render, DOM element)
+//DOM element can be found in the index html with the same id
+//ReactDOM.render(template, appRoot)
+
+var renderLength = function renderLength() {
+    var template = React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'h1',
+            null,
+            app.title
+        ),
+        app.subtitle && React.createElement(
+            'h2',
+            null,
+            app.subtitle
+        ),
+        app.options.length ? 'Current Options: ' : 'No Options',
+        React.createElement(
+            'p',
+            null,
+            app.options.length
+        ),
+        React.createElement(
+            'button',
+            { onClick: removeAll },
+            'Remove All'
+        ),
+        React.createElement(
+            'ol',
+            null,
+
+            //maps each element of an array to a list item
+            //key is mapped to the string itself, find a better way to generate unique keys
+            app.options.map(function (option) {
+                return React.createElement(
+                    'li',
+                    { key: option },
+                    option
+                );
+            })
+        ),
+        React.createElement(
+            'form',
+            { onSubmit: onFormSubmit },
+            React.createElement('input', { type: 'text', name: 'option' }),
+            React.createElement(
+                'button',
+                null,
+                'Add Option'
+            )
+        )
+    );
+    ReactDOM.render(template, appRoot);
+};
+
+renderLength();
