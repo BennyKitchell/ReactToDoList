@@ -1,99 +1,152 @@
 'use strict';
 
-console.log("app js is running");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-//Because userName is a javascript expression, it can call methods and concat strings dynamically
-var app = {
-    title: 'React To-Do List',
-    subtitle: 'This is a paragraph test',
-    options: []
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-//event e object
-var onFormSubmit = function onFormSubmit(e) {
-    //stop full page refresh
-    e.preventDefault();
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-    //target point to the element that the event started on (the form)
-    //option is the name below in the html
-    var option = e.target.elements.option.value;
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-    if (option) {
-        app.options.push(option);
-        //wipe the input
-        e.target.elements.option.value = '';
-        renderLength();
+//React component header
+//Can be found in jsx template below and can be called endlessly
+//Uppercase first letter is REQUIRED
+var Header = function (_React$Component) {
+    _inherits(Header, _React$Component);
+
+    function Header() {
+        _classCallCheck(this, Header);
+
+        return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
     }
-};
 
-var onMakeDecision = function onMakeDecision() {
-    //Generate random number based on the number of elements in array
-    var randomNumber = Math.floor(Math.random() * app.options.length);
-    var optionSelected = app.options[randomNumber];
-    alert(optionSelected);
-};
+    _createClass(Header, [{
+        key: 'render',
 
-var onRemoveAll = function onRemoveAll() {
-    app.options = [];
-    renderLength();
-};
-
-var appRoot = document.getElementById('app');
-//Renders the application using two parameters (JSX youd like to render, DOM element)
-//DOM element can be found in the index html with the same id
-//ReactDOM.render(template, appRoot)
-
-var renderLength = function renderLength() {
-    var template = React.createElement(
-        'div',
-        null,
-        React.createElement(
-            'h1',
-            null,
-            app.title
-        ),
-        app.subtitle && React.createElement(
-            'h2',
-            null,
-            app.subtitle
-        ),
-        app.options.length > 0 ? 'Current Options: ' : 'No Options',
-        React.createElement(
-            'button',
-            { disabled: app.options.length === 0, onClick: onMakeDecision },
-            'What Should I Do?'
-        ),
-        React.createElement(
-            'button',
-            { onClick: onRemoveAll },
-            'Remove All'
-        ),
-        React.createElement(
-            'ol',
-            null,
-
-            //maps each element of an array to a list item
-            //key is mapped to the string itself, find a better way to generate unique keys
-            app.options.map(function (option) {
-                return React.createElement(
-                    'li',
-                    { key: Math.random() },
-                    option
-                );
-            })
-        ),
-        React.createElement(
-            'form',
-            { onSubmit: onFormSubmit },
-            React.createElement('input', { type: 'text', name: 'option' }),
-            React.createElement(
-                'button',
+        //react components require 'render' to be defined
+        value: function render() {
+            return React.createElement(
+                'div',
                 null,
-                'Add Option'
-            )
-        )
-    );
-    ReactDOM.render(template, appRoot);
-};
+                React.createElement(
+                    'h1',
+                    null,
+                    'React To-Do List'
+                ),
+                React.createElement(
+                    'h2',
+                    null,
+                    'Generate Something To Do!'
+                )
+            );
+        }
+    }]);
 
-renderLength();
+    return Header;
+}(React.Component);
+
+//React Action Component
+
+
+var Action = function (_React$Component2) {
+    _inherits(Action, _React$Component2);
+
+    function Action() {
+        _classCallCheck(this, Action);
+
+        return _possibleConstructorReturn(this, (Action.__proto__ || Object.getPrototypeOf(Action)).apply(this, arguments));
+    }
+
+    _createClass(Action, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'button',
+                    null,
+                    'What Should I do?'
+                )
+            );
+        }
+    }]);
+
+    return Action;
+}(React.Component);
+
+//React Option Component
+
+
+var Options = function (_React$Component3) {
+    _inherits(Options, _React$Component3);
+
+    function Options() {
+        _classCallCheck(this, Options);
+
+        return _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).apply(this, arguments));
+    }
+
+    _createClass(Options, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'p',
+                    null,
+                    'Options go here'
+                )
+            );
+        }
+    }]);
+
+    return Options;
+}(React.Component);
+
+//React AddOption Component
+
+
+var AddOption = function (_React$Component4) {
+    _inherits(AddOption, _React$Component4);
+
+    function AddOption() {
+        _classCallCheck(this, AddOption);
+
+        return _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).apply(this, arguments));
+    }
+
+    _createClass(AddOption, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'form',
+                    null,
+                    React.createElement('input', { type: 'text' })
+                )
+            );
+        }
+    }]);
+
+    return AddOption;
+}(React.Component);
+
+//Template to be rended to the app
+//Each react component is called here
+
+
+var jsx = React.createElement(
+    'div',
+    null,
+    React.createElement(Header, null),
+    React.createElement(Action, null),
+    React.createElement(Options, null),
+    React.createElement(AddOption, null)
+);
+
+//Render to the application
+ReactDOM.render(jsx, document.getElementById('app'));
