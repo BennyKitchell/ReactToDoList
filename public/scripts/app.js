@@ -8,11 +8,40 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+//Nested App to hold other components
+var ToDoApp = function (_React$Component) {
+    _inherits(ToDoApp, _React$Component);
+
+    function ToDoApp() {
+        _classCallCheck(this, ToDoApp);
+
+        return _possibleConstructorReturn(this, (ToDoApp.__proto__ || Object.getPrototypeOf(ToDoApp)).apply(this, arguments));
+    }
+
+    _createClass(ToDoApp, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(Header, null),
+                React.createElement(Action, null),
+                React.createElement(Options, null),
+                React.createElement(AddOption, null)
+            );
+        }
+    }]);
+
+    return ToDoApp;
+}(React.Component);
+
 //React component header
 //Can be found in jsx template below and can be called endlessly
 //Uppercase first letter is REQUIRED
-var Header = function (_React$Component) {
-    _inherits(Header, _React$Component);
+
+
+var Header = function (_React$Component2) {
+    _inherits(Header, _React$Component2);
 
     function Header() {
         _classCallCheck(this, Header);
@@ -48,8 +77,8 @@ var Header = function (_React$Component) {
 //React Action Component
 
 
-var Action = function (_React$Component2) {
-    _inherits(Action, _React$Component2);
+var Action = function (_React$Component3) {
+    _inherits(Action, _React$Component3);
 
     function Action() {
         _classCallCheck(this, Action);
@@ -78,8 +107,34 @@ var Action = function (_React$Component2) {
 //React Option Component
 
 
-var Options = function (_React$Component3) {
-    _inherits(Options, _React$Component3);
+var Option = function (_React$Component4) {
+    _inherits(Option, _React$Component4);
+
+    function Option() {
+        _classCallCheck(this, Option);
+
+        return _possibleConstructorReturn(this, (Option.__proto__ || Object.getPrototypeOf(Option)).apply(this, arguments));
+    }
+
+    _createClass(Option, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                'Option'
+            );
+        }
+    }]);
+
+    return Option;
+}(React.Component);
+
+//React Options Component
+
+
+var Options = function (_React$Component5) {
+    _inherits(Options, _React$Component5);
 
     function Options() {
         _classCallCheck(this, Options);
@@ -97,7 +152,8 @@ var Options = function (_React$Component3) {
                     'p',
                     null,
                     'Options go here'
-                )
+                ),
+                React.createElement(Option, null)
             );
         }
     }]);
@@ -108,8 +164,8 @@ var Options = function (_React$Component3) {
 //React AddOption Component
 
 
-var AddOption = function (_React$Component4) {
-    _inherits(AddOption, _React$Component4);
+var AddOption = function (_React$Component6) {
+    _inherits(AddOption, _React$Component6);
 
     function AddOption() {
         _classCallCheck(this, AddOption);
@@ -137,16 +193,13 @@ var AddOption = function (_React$Component4) {
 
 //Template to be rended to the app
 //Each react component is called here
+// const jsx = (
+//     <div>
 
-
-var jsx = React.createElement(
-    'div',
-    null,
-    React.createElement(Header, null),
-    React.createElement(Action, null),
-    React.createElement(Options, null),
-    React.createElement(AddOption, null)
-);
+//     </div>
+// )
 
 //Render to the application
-ReactDOM.render(jsx, document.getElementById('app'));
+
+
+ReactDOM.render(React.createElement(ToDoApp, null), document.getElementById('app'));
