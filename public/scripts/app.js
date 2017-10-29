@@ -21,12 +21,17 @@ var ToDoApp = function (_React$Component) {
     _createClass(ToDoApp, [{
         key: 'render',
         value: function render() {
+            //Props for the ToDoApp
+            var title = 'React Todo';
+            var subtitle = 'Generate Something To Do!';
+            var options = ['Thing one', 'Thing 2', 'Thing 3'];
+
             return React.createElement(
                 'div',
                 null,
-                React.createElement(Header, null),
+                React.createElement(Header, { title: title, subtitle: subtitle }),
                 React.createElement(Action, null),
-                React.createElement(Options, null),
+                React.createElement(Options, { options: options }),
                 React.createElement(AddOption, null)
             );
         }
@@ -60,12 +65,12 @@ var Header = function (_React$Component2) {
                 React.createElement(
                     'h1',
                     null,
-                    'React To-Do List'
+                    this.props.title
                 ),
                 React.createElement(
                     'h2',
                     null,
-                    'Generate Something To Do!'
+                    this.props.subtitle
                 )
             );
         }
@@ -122,7 +127,8 @@ var Option = function (_React$Component4) {
             return React.createElement(
                 'div',
                 null,
-                'Option'
+                'Option: ',
+                this.props.optionText
             );
         }
     }]);
@@ -148,12 +154,9 @@ var Options = function (_React$Component5) {
             return React.createElement(
                 'div',
                 null,
-                React.createElement(
-                    'p',
-                    null,
-                    'Options go here'
-                ),
-                React.createElement(Option, null)
+                this.props.options.map(function (option) {
+                    return React.createElement(Option, { key: option, optionText: option });
+                })
             );
         }
     }]);

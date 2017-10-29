@@ -1,11 +1,16 @@
 //Nested App to hold other components
 class ToDoApp extends React.Component{
     render(){
+        //Props for the ToDoApp
+        const title = 'React Todo';
+        const subtitle = 'Generate Something To Do!';
+        const options = ['Thing one', 'Thing 2', 'Thing 3'];
+
         return (
             <div>
-                <Header />
+                <Header title={title} subtitle={subtitle}/>
                 <Action />
-                <Options />
+                <Options options={options}/>
                 <AddOption />
             </div>
         )
@@ -20,8 +25,8 @@ class Header extends React.Component{
     render(){
         return(
             <div>
-                <h1>React To-Do List</h1>
-                <h2>Generate Something To Do!</h2>
+                <h1>{this.props.title}</h1>
+                <h2>{this.props.subtitle}</h2>
             </div>
         );
     }
@@ -43,7 +48,7 @@ class Option extends React.Component{
     render(){
         return(
             <div>
-                Option 
+                Option: {this.props.optionText}
             </div>
         )
     }
@@ -54,8 +59,9 @@ class Options extends React.Component{
     render(){
         return(
             <div>
-                <p>Options go here</p>
-                <Option />
+                {
+                    this.props.options.map((option) => <Option key={option} optionText={option}/>)
+                }
             </div>
         );
     }
