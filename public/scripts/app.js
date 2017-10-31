@@ -147,16 +147,24 @@ var Option = function (_React$Component4) {
 var Options = function (_React$Component5) {
     _inherits(Options, _React$Component5);
 
-    function Options() {
+    //method binding by overriding the constructor for React component
+    //this is done to keep this binding on event handler
+    function Options(props) {
         _classCallCheck(this, Options);
 
-        return _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).apply(this, arguments));
+        //bind the event handler
+        var _this5 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
+
+        _this5.handleRemoveAll = _this5.handleRemoveAll.bind(_this5);
+        return _this5;
     }
+    //event handler to remove all of the options array
+
 
     _createClass(Options, [{
         key: 'handleRemoveAll',
         value: function handleRemoveAll() {
-            alert('remove all');
+            alert(this.props.options);
         }
     }, {
         key: 'render',

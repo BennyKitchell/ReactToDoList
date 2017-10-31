@@ -59,9 +59,18 @@ class Option extends React.Component{
 
 //React Options Component
 class Options extends React.Component{
-    handleRemoveAll(){
-        alert('remove all');
+    //method binding by overriding the constructor for React component
+    //this is done to keep this binding on event handler
+    constructor(props){
+        super(props);
+        //bind the event handler
+        this.handleRemoveAll = this.handleRemoveAll.bind(this);
     }
+    //event handler to remove all of the options array
+    handleRemoveAll(){
+        alert(this.props.options);
+    }
+
     render(){
         return(
             <div>
@@ -81,7 +90,7 @@ class AddOption extends React.Component{
         e.preventDefault();
         //actual input element from form
         const option = e.target.elements.option.value;
-        
+
         if(option.trim()){
             alert(option);
         }
