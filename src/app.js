@@ -1,16 +1,33 @@
 //Nested App to hold other components
 class ToDoApp extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            options:  ['Thing one', 'Thing 2', 'Thing next']
+        }
+        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+        this.handleChoice = this.handleChoice.bind(this);
+    }
+    handleDeleteOptions(){
+        this.setState(() => {
+            return {
+                options: []
+            }
+        })
+    }
+    handleChoice(){
+        let randomNumber = Math.floor(Math.random() * this.state.options.length);
+        alert(this.state.options[randomNumber]);
+    }
     render(){
         //Props for the ToDoApp
         const title = 'React Todo';
         const subtitle = 'Generate Something To Do!';
-        const options = ['Thing one', 'Thing 2', 'Thing 3'];
-
         return (
             <div>
                 <Header title={title} subtitle={subtitle}/>
-                <Action />
-                <Options options={options}/>
+                <Action handleChoice={this.handleChoice} hasOptions={this.state.options.length > 0}/>
+                <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions}/>
                 <AddOption />
             </div>
         )
@@ -33,14 +50,14 @@ class Header extends React.Component{
 }
 
 //React Action Component
+//Random pick now uses props
 class Action extends React.Component{
-    handleChoice() {
-        alert('something chosen');
-    }
     render(){
         return (
             <div>
-                <button onClick={this.handleChoice}>What Should I do?</button>
+                <button onClick={this.props.handleChoice} disabled={!this.props.hasOptions}>
+                    What Should I do?
+                </button>
             </div>
         );
     }
@@ -58,23 +75,12 @@ class Option extends React.Component{
 }
 
 //React Options Component
+//Remove all now uses props and states to empty array
 class Options extends React.Component{
-    //method binding by overriding the constructor for React component
-    //this is done to keep this binding on event handler
-    constructor(props){
-        super(props);
-        //bind the event handler
-        this.handleRemoveAll = this.handleRemoveAll.bind(this);
-    }
-    //event handler to remove all of the options array
-    handleRemoveAll(){
-        alert(this.props.options);
-    }
-
     render(){
         return(
             <div>
-            <button onClick={this.handleRemoveAll}>Remove All</button>
+            <button onClick={this.props.handleDeleteOptions}>Remove All</button>
                 {
                     this.props.options.map((option) => <Option key={option} optionText={option}/>)
                 }
@@ -95,6 +101,7 @@ class AddOption extends React.Component{
             alert(option);
         }
     }
+
     render(){
         return(
             <div>
