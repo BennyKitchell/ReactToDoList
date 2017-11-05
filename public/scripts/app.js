@@ -18,10 +18,11 @@ var ToDoApp = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (ToDoApp.__proto__ || Object.getPrototypeOf(ToDoApp)).call(this, props));
 
         _this.state = {
-            options: ['Thing one', 'Thing 2', 'Thing next']
+            options: []
         };
         _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
         _this.handleChoice = _this.handleChoice.bind(_this);
+        _this.handleAddOption = _this.handleAddOption.bind(_this);
         return _this;
     }
 
@@ -41,6 +42,22 @@ var ToDoApp = function (_React$Component) {
             alert(this.state.options[randomNumber]);
         }
     }, {
+        key: 'handleAddOption',
+        value: function handleAddOption(option) {
+            if (!option) {
+                return 'Enter Valid Value!';
+            } else if (this.state.options.indexOf(option) > -1) {
+                return 'This option already exists!';
+            }
+
+            this.setState(function (prevState) {
+                //using concat instead of push so that we are not directly affecting the state
+                return {
+                    options: prevState.options.concat([option])
+                };
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             //Props for the ToDoApp
@@ -52,14 +69,13 @@ var ToDoApp = function (_React$Component) {
                 React.createElement(Header, { title: title, subtitle: subtitle }),
                 React.createElement(Action, { handleChoice: this.handleChoice, hasOptions: this.state.options.length > 0 }),
                 React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
-                React.createElement(AddOption, null)
+                React.createElement(AddOption, { handleAddOption: this.handleAddOption })
             );
         }
     }]);
 
     return ToDoApp;
 }(React.Component);
-
 //React component header
 //Can be found in jsx template below and can be called endlessly
 //Uppercase first letter is REQUIRED
@@ -148,7 +164,6 @@ var Option = function (_React$Component4) {
             return React.createElement(
                 'div',
                 null,
-                'Option: ',
                 this.props.optionText
             );
         }
@@ -197,10 +212,16 @@ var Options = function (_React$Component5) {
 var AddOption = function (_React$Component6) {
     _inherits(AddOption, _React$Component6);
 
-    function AddOption() {
+    function AddOption(props) {
         _classCallCheck(this, AddOption);
 
-        return _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).apply(this, arguments));
+        var _this6 = _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).call(this, props));
+
+        _this6.handleAddOption = _this6.handleAddOption.bind(_this6);
+        _this6.state = {
+            error: undefined
+        };
+        return _this6;
     }
 
     _createClass(AddOption, [{
@@ -209,11 +230,12 @@ var AddOption = function (_React$Component6) {
             //Stop page reloading when form submitted
             e.preventDefault();
             //actual input element from form
-            var option = e.target.elements.option.value;
+            var option = e.target.elements.option.value.trim();
+            var error = this.props.handleAddOption(option);
 
-            if (option.trim()) {
-                alert(option);
-            }
+            this.setState(function () {
+                return { error: error };
+            });
         }
     }, {
         key: 'render',
@@ -221,6 +243,11 @@ var AddOption = function (_React$Component6) {
             return React.createElement(
                 'div',
                 null,
+                this.state.error && React.createElement(
+                    'p',
+                    null,
+                    this.state.error
+                ),
                 React.createElement(
                     'form',
                     { onSubmit: this.handleAddOption },

@@ -3,10 +3,11 @@ class ToDoApp extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            options:  ['Thing one', 'Thing 2', 'Thing next']
+            options:  []
         }
         this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
         this.handleChoice = this.handleChoice.bind(this);
+        this.handleAddOption = this.handleAddOption.bind(this);
     }
     handleDeleteOptions(){
         this.setState(() => {
@@ -19,6 +20,21 @@ class ToDoApp extends React.Component{
         let randomNumber = Math.floor(Math.random() * this.state.options.length);
         alert(this.state.options[randomNumber]);
     }
+    handleAddOption(option){
+        if(!option){
+            return 'Enter Valid Value!';
+        }
+        else if(this.state.options.indexOf(option) > -1){
+            return 'This option already exists!';
+        }
+
+        this.setState((prevState) =>{
+            //using concat instead of push so that we are not directly affecting the state
+            return {
+                options: prevState.options.concat([option])
+            }
+        })
+    }
     render(){
         //Props for the ToDoApp
         const title = 'React Todo';
@@ -28,12 +44,11 @@ class ToDoApp extends React.Component{
                 <Header title={title} subtitle={subtitle}/>
                 <Action handleChoice={this.handleChoice} hasOptions={this.state.options.length > 0}/>
                 <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions}/>
-                <AddOption />
+                <AddOption handleAddOption={this.handleAddOption}/>
             </div>
         )
     }
 }
-
 //React component header
 //Can be found in jsx template below and can be called endlessly
 //Uppercase first letter is REQUIRED
@@ -68,7 +83,7 @@ class Option extends React.Component{
     render(){
         return(
             <div>
-                Option: {this.props.optionText}
+                {this.props.optionText}
             </div>
         )
     }
@@ -91,20 +106,29 @@ class Options extends React.Component{
 
 //React AddOption Component
 class AddOption extends React.Component{
+    constructor(props){
+        super(props);
+        this.handleAddOption = this.handleAddOption.bind(this);
+        this.state = {
+            error: undefined
+        }
+    }
     handleAddOption(e){
         //Stop page reloading when form submitted
         e.preventDefault();
         //actual input element from form
-        const option = e.target.elements.option.value;
-
-        if(option.trim()){
-            alert(option);
-        }
+        const option = e.target.elements.option.value.trim();
+        const error = this.props.handleAddOption(option);
+        
+        this.setState(( ) => {
+            return { error }
+        })
     }
 
     render(){
         return(
             <div>
+                {this.state.error && <p>{this.state.error}</p>}
                 <form onSubmit={this.handleAddOption}>
                     <input type='text'  name='option'/>
                     <button>Some value</button>
