@@ -1,11 +1,12 @@
 //Nested App to hold other components
 //Can be found in jsx template below and can be called endlessly
 //Uppercase first letter is REQUIRED
+
 class ToDoApp extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            options:  []
+            options:  props.options
         }
         this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
         this.handleChoice = this.handleChoice.bind(this);
@@ -39,17 +40,21 @@ class ToDoApp extends React.Component{
     }
     render(){
         //Props for the ToDoApp
-        const title = 'React Todo';
         const subtitle = 'Generate Something To Do!';
         return (
             <div>
-                <Header title={title} subtitle={subtitle}/>
+                <Header subtitle={subtitle}/>
                 <Action handleChoice={this.handleChoice} hasOptions={this.state.options.length > 0}/>
                 <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions}/>
                 <AddOption handleAddOption={this.handleAddOption}/>
             </div>
         )
     }
+}
+
+//default prop for the class
+ToDoApp.defaultProps ={
+    options: []
 }
 
 //React component header
@@ -59,9 +64,13 @@ const Header = (props) =>{
     return(
         <div>
             <h1>{props.title}</h1>
-            <h2>{props.subtitle}</h2>
+            {props.subtitle && <h2>{props.subtitle}</h2>}
         </div>
     );
+}
+
+Header.defaultProps = {
+    title: 'React To-do App'
 }
 
 //React Action Component

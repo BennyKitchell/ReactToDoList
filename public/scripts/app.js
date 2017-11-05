@@ -11,6 +11,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 //Nested App to hold other components
 //Can be found in jsx template below and can be called endlessly
 //Uppercase first letter is REQUIRED
+
 var ToDoApp = function (_React$Component) {
     _inherits(ToDoApp, _React$Component);
 
@@ -20,7 +21,7 @@ var ToDoApp = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (ToDoApp.__proto__ || Object.getPrototypeOf(ToDoApp)).call(this, props));
 
         _this.state = {
-            options: []
+            options: props.options
         };
         _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
         _this.handleChoice = _this.handleChoice.bind(_this);
@@ -63,12 +64,11 @@ var ToDoApp = function (_React$Component) {
         key: 'render',
         value: function render() {
             //Props for the ToDoApp
-            var title = 'React Todo';
             var subtitle = 'Generate Something To Do!';
             return React.createElement(
                 'div',
                 null,
-                React.createElement(Header, { title: title, subtitle: subtitle }),
+                React.createElement(Header, { subtitle: subtitle }),
                 React.createElement(Action, { handleChoice: this.handleChoice, hasOptions: this.state.options.length > 0 }),
                 React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
                 React.createElement(AddOption, { handleAddOption: this.handleAddOption })
@@ -79,12 +79,16 @@ var ToDoApp = function (_React$Component) {
     return ToDoApp;
 }(React.Component);
 
-//React component header
-//stateless functional component
-//can still use props, just no state
+//default prop for the class
 
 
-var Header = function Header(props) {
+ToDoApp.defaultProps = {
+    options: []
+
+    //React component header
+    //stateless functional component
+    //can still use props, just no state
+};var Header = function Header(props) {
     return React.createElement(
         'div',
         null,
@@ -93,7 +97,7 @@ var Header = function Header(props) {
             null,
             props.title
         ),
-        React.createElement(
+        props.subtitle && React.createElement(
             'h2',
             null,
             props.subtitle
@@ -101,8 +105,11 @@ var Header = function Header(props) {
     );
 };
 
-//React Action Component
-var Action = function Action(props) {
+Header.defaultProps = {
+    title: 'React To-do App'
+
+    //React Action Component
+};var Action = function Action(props) {
     return React.createElement(
         'div',
         null,
