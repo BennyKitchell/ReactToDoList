@@ -1,4 +1,6 @@
 //Nested App to hold other components
+//Can be found in jsx template below and can be called endlessly
+//Uppercase first letter is REQUIRED
 class ToDoApp extends React.Component{
     constructor(props){
         super(props);
@@ -49,59 +51,49 @@ class ToDoApp extends React.Component{
         )
     }
 }
+
 //React component header
-//Can be found in jsx template below and can be called endlessly
-//Uppercase first letter is REQUIRED
-class Header extends React.Component{
-    //react components require 'render' to be defined
-    render(){
-        return(
-            <div>
-                <h1>{this.props.title}</h1>
-                <h2>{this.props.subtitle}</h2>
-            </div>
-        );
-    }
+//stateless functional component
+//can still use props, just no state
+const Header = (props) =>{
+    return(
+        <div>
+            <h1>{props.title}</h1>
+            <h2>{props.subtitle}</h2>
+        </div>
+    );
 }
 
 //React Action Component
-//Random pick now uses props
-class Action extends React.Component{
-    render(){
-        return (
-            <div>
-                <button onClick={this.props.handleChoice} disabled={!this.props.hasOptions}>
-                    What Should I do?
-                </button>
-            </div>
-        );
-    }
+const Action = (props) => {
+    return (
+        <div>
+            <button onClick={props.handleChoice} disabled={!props.hasOptions}>
+                What Should I do?
+            </button>
+        </div>
+    );
 }
 
 //React Option Component
-class Option extends React.Component{
-    render(){
-        return(
-            <div>
-                {this.props.optionText}
-            </div>
-        )
-    }
+const Option = (props) => {
+    return(
+        <div>
+            {props.optionText}
+        </div>
+    )
 }
 
 //React Options Component
-//Remove all now uses props and states to empty array
-class Options extends React.Component{
-    render(){
-        return(
-            <div>
-            <button onClick={this.props.handleDeleteOptions}>Remove All</button>
-                {
-                    this.props.options.map((option) => <Option key={option} optionText={option}/>)
-                }
-            </div>
-        );
-    }
+const Options = (props) =>{
+    return(
+        <div>
+        <button onClick={props.handleDeleteOptions}>Remove All</button>
+            {
+                props.options.map((option) => <Option key={option} optionText={option}/>)
+            }
+        </div>
+    );
 }
 
 //React AddOption Component
@@ -138,13 +130,4 @@ class AddOption extends React.Component{
     }
 }
 
-//Template to be rended to the app
-//Each react component is called here
-// const jsx = (
-//     <div>
-
-//     </div>
-// )
-
-//Render to the application
 ReactDOM.render(<ToDoApp />, document.getElementById('app'));
