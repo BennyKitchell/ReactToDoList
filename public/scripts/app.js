@@ -29,8 +29,44 @@ var ToDoApp = function (_React$Component) {
         _this.handleDeleteOption = _this.handleDeleteOption.bind(_this);
         return _this;
     }
+    //lifecycle method that is fired when component is mounted to the DOM
+
 
     _createClass(ToDoApp, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            console.log('fetching data...');
+            try {
+                var json = localStorage.getItem('options');
+                var options = JSON.parse(json);
+                if (options) {
+                    this.setState(function () {
+                        return { options: options };
+                    });
+                }
+            } catch (e) {
+                //Do nothing
+                console.log('Invalid json in options');
+            }
+        }
+        //lifecycle method that is fired when component props or state is changed
+
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate(prevProps, prevState) {
+            //check if options length has changed
+            if (prevState.options.length !== this.state.options.length) {
+                var json = JSON.stringify(this.state.options);
+                localStorage.setItem('options', json);
+                console.log('saving data...');
+            }
+        }
+        //lifecycle method that is fired when just before the component goes away
+
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {}
+    }, {
         key: 'handleDeleteOptions',
         value: function handleDeleteOptions() {
             //wrap an object in  ( ) in arrow functions to return object rather than empty body
@@ -163,6 +199,11 @@ var Options = function Options(props) {
             { onClick: props.handleDeleteOptions },
             'Remove All'
         ),
+        props.options.length === 0 && React.createElement(
+            'p',
+            null,
+            'Please add an option.'
+        ),
         props.options.map(function (option) {
             return React.createElement(Option, {
                 key: option,
@@ -202,6 +243,9 @@ var AddOption = function (_React$Component2) {
             this.setState(function () {
                 return { error: error };
             });
+            if (!error) {
+                e.target.elements.option.value = '';
+            }
         }
     }, {
         key: 'render',
