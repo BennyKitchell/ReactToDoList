@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ToDoApp from './components/ToDoApp';
 
-const template = React.createElement('p',{}, 'Testing react and react-dom import');
-ReactDOM.render(template,document.getElementById('app'));
+ReactDOM.render(<ToDoApp />, document.getElementById('app'));

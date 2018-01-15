@@ -7,5 +7,17 @@ module.exports = {
         // absolute path
         path: path.join(__dirname, 'public'),
         filename: 'bundle.js'
+    },
+    module: {
+        // loader
+        // anytime you see a js file run it through babel
+        rules: [{
+            loader: 'babel-loader',
+            test: /\.js$/,
+            exclude: /node_modules/
+        }]
     }
 };
+
+
+
